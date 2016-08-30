@@ -92,9 +92,8 @@ class httpbin :
         )
         c_names = req.GET.get("name")
         if c_names :
-            response["Set-Cookie"] = "".join([
-                    ("%s=; " % k) if k else "" for k in c_names.split(",")
-                ]) + "Expires=Thu, 01-Jan-1970 00:00:00 GMT; Max-Age=0; Path=/"
+            for k in req.GET :
+                response.delete_cookie(k)
         return response
     
     def cookies_set (req):
@@ -102,9 +101,8 @@ class httpbin :
             status = 302 ,
             headers = redirect_header ("/cookies")
         )
-        response["Set-Cookie"] = "".join([
-            ("%s=%s; " % (k, req.GET[k])) for k in req.GET
-        ])
+        for k in req.GET :
+            response.set_cookie(k, req.GET[k])
         return response
     
     def cookies (req):
