@@ -124,10 +124,7 @@ class httpbin :
         return response
             
     def redirect_to (req):
-        url = req.GET.get("url") 
-        if not url :
-            url = "http://www.example.com"
-        url = url.lower()
+        url = req.GET.get("url", "http://www.example.com").lower()
         if not url.startswith ("http"):
             url = "http://" + url
         return JsonResponse (
