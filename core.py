@@ -92,8 +92,9 @@ class httpbin :
         )
         c_names = req.GET.get("name")
         if c_names :
-            for k in req.GET :
-                response.delete_cookie(k)
+            for k in c_names.split(",") :
+                if k :
+                    response.delete_cookie(k)
         return response
     
     def cookies_set (req):
